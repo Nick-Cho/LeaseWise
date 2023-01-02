@@ -1,8 +1,12 @@
 import React from 'react'
 import {ResponsiveAppBar} from './MuiAppBar'
+
 function Nav() {
-  <div>
-    <ResponsiveAppBar/>
-  </div>
+  return (
+    <div>
+      <ResponsiveAppBar/>
+    </div>
+  )
 }
 
+export default Nav;
