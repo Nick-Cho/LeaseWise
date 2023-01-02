@@ -1,14 +1,11 @@
 import React from 'react';
 import { store } from './redux/store';
-
-export const RootState = ReturnType<typeof store.getState>
-
-export type AppDispatch = typeof store.dispatch
+import Nav from './components/Navbar/Nav';
 
 function App() {
   return (
     <div>
-
+      <Nav/>
     </div>
   );
 }
