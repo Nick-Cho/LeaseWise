@@ -1,4 +1,8 @@
-import * as React from 'react';
+import React, {useEffect} from 'react';
+
+import {getUserLoggedIn, getNavBarVisible} from '../../redux/reducers/appReducer';
+import { useSelector } from "react-redux";
+
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -34,6 +38,15 @@ export function ResponsiveAppBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const { isNavBarVisible, userLoggedIn } = useSelector((state: any) => {
+    return {
+      isNavBarVisible: getNavBarVisible(state),
+      userLoggedIn: getUserLoggedIn(state), 
+    };
+  });
+
+  useEffect(() => {}, [isNavBarVisible, userLoggedIn]);
 
   return (
     <AppBar position="fixed" >
@@ -124,7 +137,8 @@ export function ResponsiveAppBar() {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
+        { userLoggedIn &&
+         <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -152,7 +166,40 @@ export function ResponsiveAppBar() {
                 </MenuItem>
               ))}
             </Menu>
+          </Box> 
+        }
+        {!userLoggedIn &&
+          <Box sx={{ flexGrow: 0 }}>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: 'block', md: 'none' },
+              }}
+            >
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Typography textAlign="center">Log in</Typography>
+                <Button                
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  Log in
+                </Button>
+              </MenuItem>
+            </Menu>
           </Box>
+        }
         </Toolbar>
       </Container>
     </AppBar>
